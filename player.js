@@ -16,6 +16,7 @@ class Player {
             this.currentSpace = (boardRows*boardCols) - 1
         }
         if(this.currentSpace == (boardRows*boardCols) - 1){
+            console.log(this.name + " won!!!!");
             gameOver = true;
         }
     }
