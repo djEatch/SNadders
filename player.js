@@ -29,6 +29,7 @@ class Player {
         if(this.currentSpace == (boardRows*boardCols) - 1){
             console.log(this.name + " won!!!!");
             playerText.html(this.name + " won!!!");
+            rollBtn.html("RESET");
             gameOver = true;
         }
     }
