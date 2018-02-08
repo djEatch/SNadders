@@ -7,6 +7,8 @@ let activePlayer;
 let snadders=[];
 let snadderCount = 5;
 
+let highlightTrail = []
+let activeSpace
 
 let gameOver = false;
 
@@ -50,15 +52,6 @@ function setup() {
     players.push(player);
     player = new Player("Duuuuuude");
     players.push(player);
-
-    // player = new Player("E");
-    // players.push(player);
-    // player = new Player("F");
-    // players.push(player);
-    // player = new Player("G");
-    // players.push(player);
-    // player = new Player("H");
-    // players.push(player);
     
     playerText = createDiv();
     playerText.html("Loading...",true);
@@ -77,6 +70,30 @@ function setup() {
 
 function draw() {
     frameRate(5);
+    if(phase == preview_phase){
+        activeSpace++;
+        if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
+            board[activeSpace].highlight();
+        } else {
+            phase = move_phase;
+            activeSpace = activePlayer.currentSpace;
+        }
+    } else if (phase == move_phase) {
+        activeSpace++;
+        if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
+            board[activeSpace].default();
+            activePlayer.currentSpace++;
+        } else {
+            //next phase
+            phase = snadder_phase;
+        }
+    }
+    
+
+    drawBoard();
+    drawSnadders();
+    drawPlayers();
+
 }
 
 
@@ -86,14 +103,15 @@ function buttonPress(){
     // activePlayer = players[turnCount%players.length]
     // playerText.html(activePlayer.name + "'s turn.");
     if(!gameOver){
-        activePlayer.move(roll());
-        drawBoard();
-        drawSnadders();
-        drawPlayers();
-        turnCount++;
-        if(!gameOver){
-            setActivePlayer()
-        }
+        activePlayer.premove(roll());
+        // activePlayer.move();
+        // drawBoard();
+        // drawSnadders();
+        // drawPlayers();
+        // turnCount++;
+        // if(!gameOver){
+        //     setActivePlayer()
+        // }
     } else {
         reset();
     }

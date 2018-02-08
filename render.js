@@ -1,7 +1,7 @@
 function drawBoard(){
     for(space of board){
         colorMode(RGB);
-        fill(255,255,255);
+        fill(space.colour);
         strokeWeight(1);
         stroke(0,0,0);
         rect(space.xo,space.yo,squareSize,squareSize)
