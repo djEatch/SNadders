@@ -18,8 +18,7 @@ const setup_phase = 0
 const roll_phase = 1
 const preview_phase = 2
 const move_phase = 3
-const snadder_phase = 4
-const evaluation_phase = 5
+const evaluate_phase = 5
 const reset_phase = 6
 
 let playerText;
@@ -70,7 +69,9 @@ function setup() {
 
 function draw() {
     frameRate(5);
-    if(phase == preview_phase){
+    if (phase == roll_phase) {
+        setActivePlayer()
+    }else  if(phase == preview_phase){
         activeSpace++;
         if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
             board[activeSpace].highlight();
@@ -84,8 +85,19 @@ function draw() {
             board[activeSpace].default();
             activePlayer.currentSpace++;
         } else {
-            //next phase
-            phase = snadder_phase;
+            phase = evaluate_phase;
+        }
+    } else if (phase == evaluate_phase) {
+        if(activePlayer.targetSpace == (boardRows*boardCols) - 1){
+            phase = reset_phase;
+            console.log(this.name + " won!!!!");
+            playerText.html(this.name + " won!!!");
+            rollBtn.html("RESET");
+            gameOver = true;
+        } else {
+            turnCount++;
+            phase = roll_phase;
+            
         }
     }
     

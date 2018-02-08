@@ -41,7 +41,7 @@ class Player {
             rollBtn.html("RESET");
             gameOver = true;
         } else {
-            phase = preview_phase;
+            phase = roll_phase;
         }
     }
 }
