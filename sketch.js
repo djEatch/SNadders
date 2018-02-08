@@ -12,15 +12,16 @@ let gameOver = false;
 
 let phase;
 
-let setup_phase = 0
-let roll_phase = 1
-let preview_phase = 2
-let move_phase = 3
-let snadder_phase = 4
-let evaluation_phase = 5
-let reset_phase = 6
+const setup_phase = 0
+const roll_phase = 1
+const preview_phase = 2
+const move_phase = 3
+const snadder_phase = 4
+const evaluation_phase = 5
+const reset_phase = 6
 
 let playerText;
+let turnCount = 0;
 
 function setup() {
 
@@ -50,14 +51,21 @@ function setup() {
     player = new Player("Duuuuuude");
     players.push(player);
 
-    activePlayer = players[0];
-    console.log(activePlayer);
+    
     playerText = createDiv();
     playerText.html("Loading...",true);
 
     drawBoard();
     drawSnadders();
     drawPlayers();
+    console.log(turnCount%players.length);
+    activePlayer = players[turnCount%players.length]
+    console.log(activePlayer);
+    playerText.html(activePlayer.name + "'s turn.");
+
+    rollBtn = createButton('Roll');
+    //button.position(19, 19);
+    rollBtn.mousePressed(buttonPress);
 
 }
 
@@ -101,20 +109,32 @@ function drawSnadders(){
 
 function draw() {
     frameRate(5);
-    let turnCount = 0;
-    while(gameOver == false){
-        console.log(turnCount%players.length);
-        activePlayer = players[turnCount%players.length]
-        playerText.html(player.name + "'s turn.");
+    
+    // while(gameOver == false){
+    //     console.log(turnCount%players.length);
+        
+    // }
+    // noLoop();
+    
+    // reset();
+}
+
+function buttonPress(){
+    // activePlayer = players[turnCount%players.length]
+    // playerText.html(activePlayer.name + "'s turn.");
+    if(!gameOver){
         activePlayer.move(roll());
         drawBoard();
         drawSnadders();
         drawPlayers();
         turnCount++;
+        if(!gameOver){
+            activePlayer = players[turnCount%players.length]
+            playerText.html(activePlayer.name + "'s turn.");
+        }
+    } else {
+        reset();
     }
-    noLoop();
-    
-    reset();
 }
 
 function reset(){
@@ -122,6 +142,14 @@ function reset(){
         player.currentSpace = 0
     }
     gameOver = false;
+
+    drawBoard();
+    drawSnadders();
+    drawPlayers();
+
+    turnCount=0;
+    activePlayer = players[turnCount%players.length]
+    playerText.html(activePlayer.name + "'s turn.");
 }
 
 function roll(){
