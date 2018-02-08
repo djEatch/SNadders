@@ -7,7 +7,7 @@ class Snadder{
         } else {
             this.type = "SNAKE";
         }
-        console.log (spaces);
+        //console.log (spaces);
         for(let space of spaces){
             if(this.startIndex == space.index){
                 this.startLocX = space.xo + (squareSize*0.5);

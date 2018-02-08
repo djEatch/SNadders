@@ -20,7 +20,7 @@ let snadder_phase = 4
 let evaluation_phase = 5
 let reset_phase = 6
 
-
+let playerText;
 
 function setup() {
 
@@ -47,28 +47,48 @@ function setup() {
     players.push(player);
     player = new Player("PeekyPie");
     players.push(player);
+    player = new Player("Duuuuuude");
+    players.push(player);
+
+    activePlayer = players[0];
+    console.log(activePlayer);
+    playerText = createDiv();
+    playerText.html("Loading...",true);
+
+    drawBoard();
+    drawSnadders();
+    drawPlayers();
 
 }
 
-function draw() {
+function drawBoard(){
     for(space of board){
         colorMode(RGB);
         fill(255,255,255);
+        stroke(0,0,0);
         rect(space.xo,space.yo,squareSize,squareSize)
-        //console.log(space);
         textSize(32);
         textAlign(CENTER,CENTER);
         fill(0, 102, 153);
         text(space.index, space.xo+(squareSize*0.5),space.yo+(squareSize*0.5));
+    }
+}
 
-        for(player of players){
+function drawPlayers(){
+    for(player of players){
+        for(space of board){
             if(player.currentSpace == space.index){
                 colorMode(RGB);
+                stroke(0,0,0);
                 fill(player.colourR,player.colourG,player.colourB);
                 ellipse(space.xo+(squareSize*0.5),space.yo+(squareSize*0.5),squareSize*0.6,squareSize*0.6);
+                break;
             }
         }
     }
+}
+
+function drawSnadders(){
     for (snadder of snadders){
         if(snadder.type == "SNAKE"){
             stroke(0,255,0);
@@ -77,16 +97,20 @@ function draw() {
         }
         line(snadder.startLocX,snadder.startLocY,snadder.endLocX,snadder.endLocY);
     }
+}
 
+function draw() {
+    frameRate(5);
+    let turnCount = 0;
     while(gameOver == false){
-
-        for(player of players){
-            
-            if (!gameOver){
-                player.move(roll());
-            }
-        }
-
+        console.log(turnCount%players.length);
+        activePlayer = players[turnCount%players.length]
+        playerText.html(player.name + "'s turn.");
+        activePlayer.move(roll());
+        drawBoard();
+        drawSnadders();
+        drawPlayers();
+        turnCount++;
     }
     noLoop();
     

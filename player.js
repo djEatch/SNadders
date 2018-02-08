@@ -2,6 +2,7 @@ class Player {
 
     constructor(name){
         this.name = name;
+        this.index = players.length;
         this.colourR = random(255);
         this.colourG = random(255);
         this.colourB = random(255);
@@ -27,6 +28,7 @@ class Player {
 
         if(this.currentSpace == (boardRows*boardCols) - 1){
             console.log(this.name + " won!!!!");
+            playerText.html(this.name + " won!!!");
             gameOver = true;
         }
     }
