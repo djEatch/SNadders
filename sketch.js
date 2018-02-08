@@ -100,6 +100,10 @@ function drawPlayers(){
                 stroke(0,0,0);
                 fill(player.colourR,player.colourG,player.colourB);
                 ellipse(space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff,counterSize,counterSize);
+                textSize(counterSize);
+                textAlign(CENTER,CENTER);
+                fill(0, 0, 0);
+                text(player.name.substr(0,1), space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff);
                 break;
             }
         }
