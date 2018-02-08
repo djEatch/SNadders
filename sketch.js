@@ -51,6 +51,14 @@ function setup() {
     player = new Player("Duuuuuude");
     players.push(player);
 
+    player = new Player("E");
+    players.push(player);
+    player = new Player("F");
+    players.push(player);
+    player = new Player("G");
+    players.push(player);
+    player = new Player("H");
+    players.push(player);
     
     playerText = createDiv();
     playerText.html("Loading...",true);
@@ -58,14 +66,12 @@ function setup() {
     drawBoard();
     drawSnadders();
     drawPlayers();
-    console.log(turnCount%players.length);
-    activePlayer = players[turnCount%players.length]
-    console.log(activePlayer);
-    playerText.html(activePlayer.name + "'s turn.");
+    
+    setActivePlayer()
 
     rollBtn = createButton('Roll');
-    //button.position(19, 19);
     rollBtn.mousePressed(buttonPress);
+    rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
 
 }
 
@@ -83,13 +89,17 @@ function drawBoard(){
 }
 
 function drawPlayers(){
+
+    let counterSize = (squareSize/players.length)*1.5;
     for(player of players){
+        let xOff = (player.index-floor(players.length/2)) * (counterSize/2)
+        let yOff = (player.index-floor(players.length/2)) * (counterSize/2)
         for(space of board){
             if(player.currentSpace == space.index){
                 colorMode(RGB);
                 stroke(0,0,0);
                 fill(player.colourR,player.colourG,player.colourB);
-                ellipse(space.xo+(squareSize*0.5),space.yo+(squareSize*0.5),squareSize*0.6,squareSize*0.6);
+                ellipse(space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff,counterSize,counterSize);
                 break;
             }
         }
@@ -129,12 +139,17 @@ function buttonPress(){
         drawPlayers();
         turnCount++;
         if(!gameOver){
-            activePlayer = players[turnCount%players.length]
-            playerText.html(activePlayer.name + "'s turn.");
+            setActivePlayer()
         }
     } else {
         reset();
     }
+}
+
+function setActivePlayer(){
+    activePlayer = players[turnCount%players.length]
+    playerText.html(activePlayer.name + "'s turn.");
+    playerText.style('color', color(activePlayer.colourR,activePlayer.colourG,activePlayer.colourB));
 }
 
 function reset(){
@@ -148,8 +163,7 @@ function reset(){
     drawPlayers();
 
     turnCount=0;
-    activePlayer = players[turnCount%players.length]
-    playerText.html(activePlayer.name + "'s turn.");
+    setActivePlayer()
 }
 
 function roll(){
