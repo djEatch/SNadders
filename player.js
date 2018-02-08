@@ -42,6 +42,7 @@ class Player {
             gameOver = true;
         } else {
             phase = roll_phase;
+            
         }
     }
 }

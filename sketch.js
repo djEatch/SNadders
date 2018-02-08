@@ -70,7 +70,7 @@ function setup() {
 function draw() {
     frameRate(5);
     if (phase == roll_phase) {
-        setActivePlayer()
+        
     }else  if(phase == preview_phase){
         activeSpace++;
         if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
@@ -96,6 +96,7 @@ function draw() {
             gameOver = true;
         } else {
             turnCount++;
+            setActivePlayer()
             phase = roll_phase;
             
         }
