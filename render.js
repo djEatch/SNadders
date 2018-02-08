@@ -2,6 +2,7 @@ function drawBoard(){
     for(space of board){
         colorMode(RGB);
         fill(255,255,255);
+        strokeWeight(1);
         stroke(0,0,0);
         rect(space.xo,space.yo,squareSize,squareSize)
         textSize(32);
@@ -21,6 +22,7 @@ function drawPlayers(){
             if(player.currentSpace == space.index){
                 colorMode(RGB);
                 stroke(0,0,0);
+                strokeWeight(1);
                 fill(player.colourR,player.colourG,player.colourB);
                 ellipse(space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff,counterSize,counterSize);
                 textSize(counterSize);
@@ -35,6 +37,7 @@ function drawPlayers(){
 
 function drawSnadders(){
     for (snadder of snadders){
+        strokeWeight(4);
         if(snadder.type == "SNAKE"){
             stroke(0,255,0);
         } else{

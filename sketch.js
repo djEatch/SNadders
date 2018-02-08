@@ -51,14 +51,14 @@ function setup() {
     player = new Player("Duuuuuude");
     players.push(player);
 
-    player = new Player("E");
-    players.push(player);
-    player = new Player("F");
-    players.push(player);
-    player = new Player("G");
-    players.push(player);
-    player = new Player("H");
-    players.push(player);
+    // player = new Player("E");
+    // players.push(player);
+    // player = new Player("F");
+    // players.push(player);
+    // player = new Player("G");
+    // players.push(player);
+    // player = new Player("H");
+    // players.push(player);
     
     playerText = createDiv();
     playerText.html("Loading...",true);
