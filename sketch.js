@@ -34,7 +34,9 @@ function setup() {
     
     console.log(board);
 
-    let snadder = new Snadder(start,end);
+    let snadder = new Snadder(19,5,board);
+    snadders.push(snadder);
+    snadder = new Snadder(6,20,board);
     snadders.push(snadder);
 
     let player = new Player("BooBug");
@@ -61,9 +63,15 @@ function draw() {
                 fill(player.colourR,player.colourG,player.colourB);
                 ellipse(space.xo+(squareSize*0.5),space.yo+(squareSize*0.5),squareSize*0.6,squareSize*0.6);
             }
-            
         }
-
+    }
+    for (snadder of snadders){
+        if(snadder.type == "SNAKE"){
+            stroke(0,255,0);
+        } else{
+            stroke(255,255,0);
+        }
+        line(snadder.startLocX,snadder.startLocY,snadder.endLocX,snadder.endLocY);
     }
 
     while(gameOver == false){
@@ -76,7 +84,7 @@ function draw() {
         }
 
     }
-    console.log("outofloop");
+    noLoop();
     
     reset();
 }
@@ -89,6 +97,6 @@ function reset(){
 }
 
 function roll(){
-    let diceValue = floor(random(7));
+    let diceValue = floor(random(1,7));
     return diceValue;
 }
