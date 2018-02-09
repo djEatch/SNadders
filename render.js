@@ -12,24 +12,26 @@ function drawBoard(){
     }
 }
 
-function drawPlayers(){
+function drawPlayers(exclude){
 
     let counterSize = (squareSize/players.length)*1.5;
     for(player of players){
-        let xOff = (player.index-floor(players.length/2)) * (counterSize/2)
-        let yOff = (player.index-floor(players.length/2)) * (counterSize/2)
-        for(space of board){
-            if(player.currentSpace == space.index){
-                colorMode(RGB);
-                stroke(0,0,0);
-                strokeWeight(1);
-                fill(player.colourR,player.colourG,player.colourB);
-                ellipse(space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff,counterSize,counterSize);
-                textSize(counterSize);
-                textAlign(CENTER,CENTER);
-                fill(0, 0, 0);
-                text(player.name.substr(0,1), space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff);
-                break;
+        if(player != exclude){
+            let xOff = (player.index-floor(players.length/2)) * (counterSize/2)
+            let yOff = (player.index-floor(players.length/2)) * (counterSize/2)
+            for(space of board){
+                if(player.currentSpace == space.index){
+                    colorMode(RGB);
+                    stroke(0,0,0);
+                    strokeWeight(1);
+                    fill(player.colourR,player.colourG,player.colourB);
+                    ellipse(space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff,counterSize,counterSize);
+                    textSize(counterSize);
+                    textAlign(CENTER,CENTER);
+                    fill(0, 0, 0);
+                    text(player.name.substr(0,1), space.xo+(squareSize*0.5)+xOff,space.yo+(squareSize*0.5)-yOff);
+                    break;
+                }
             }
         }
     }

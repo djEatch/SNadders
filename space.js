@@ -14,8 +14,14 @@ class Space {
 
     }
 
-    highlight(){
-        this.colour = color(100,255,100);
+    highlight(type){
+        if (type=="ROLL"){
+            this.colour = color(100,100,255);
+        } else if (type=="UP"){
+            this.colour = color(100,255,100);
+        } else if (type=="DOWN"){
+            this.colour = color(255,100,100);
+        }
     }
 
     default(){

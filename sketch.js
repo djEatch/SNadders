@@ -18,8 +18,10 @@ const setup_phase = 0
 const roll_phase = 1
 const preview_phase = 2
 const move_phase = 3
-const evaluate_phase = 5
-const reset_phase = 6
+const snadder_preview_phase = 4
+const snadder_move_phase = 5
+const evaluate_phase = 6
+const reset_phase = 7
 
 let playerText;
 let turnCount = -1;
@@ -94,6 +96,31 @@ function draw() {
         animate("MOVE");
         
         if (activeSpace == activePlayer.targetSpace) {
+            //activePlayer.snadderMove();
+
+            for (snadder of snadders) {
+                if(activePlayer.currentSpace == snadder.startIndex){
+                    activePlayer.targetSpace = snadder.endIndex;
+                    console.log (activePlayer + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
+                    phase = snadder_preview_phase;
+                }
+            }
+            if (phase!=snadder_preview_phase){
+                phase = evaluate_phase
+            }
+
+        }
+    } else if (phase == snadder_preview_phase){
+        animate("PREVIEWSNADDER");
+        
+        if (activeSpace == activePlayer.targetSpace) {
+            phase = snadder_move_phase;
+            activeSpace = activePlayer.currentSpace;
+        }
+    }else if (phase == snadder_move_phase){
+        animate("MOVE");
+        
+        if (activeSpace == activePlayer.targetSpace) {
             phase = evaluate_phase;
         }
     } else if (phase == evaluate_phase) {
@@ -116,6 +143,10 @@ function draw() {
 
 }
 
+function snadimate(){
+    console.log("Snaddering!!!!");
+}
+
 function animate(type){
     if(activeSpace<activePlayer.targetSpace){ // moving up the board
         activeSpace++;
@@ -126,8 +157,14 @@ function animate(type){
         if(type=="MOVE"){
             board[activeSpace].default();
             activePlayer.currentSpace = activeSpace;
-        } else { // PREVIEW
-            board[activeSpace].highlight();
+        } else if (type=="PREVIEW") { // PREVIEW
+            board[activeSpace].highlight("ROLL");
+        } else if (type=="PREVIEWSNADDER") { // PREVIEWSNADDER
+            if (activePlayer.targetSpace > activePlayer.currentSpace) {
+                board[activeSpace].highlight("UP");
+            } else {
+                board[activeSpace].highlight("DOWN");  
+            }
         }
     } 
 }

@@ -16,12 +16,12 @@ class Player {
         console.log (this.name + " rolled  " +num + " would move from  " + this.currentSpace + " to " + this.targetSpace);
         
 
-        for (snadder of snadders) {
-            if(this.targetSpace == snadder.startIndex){
-                this.targetSpace = snadder.endIndex;
-                console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
-            }
-        }
+        // for (snadder of snadders) {
+        //     if(this.targetSpace == snadder.startIndex){
+        //         this.targetSpace = snadder.endIndex;
+        //         console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
+        //     }
+        // }
 
         if (this.targetSpace >= boardRows*boardCols) {
             this.targetSpace = (boardRows*boardCols) - 1
@@ -45,4 +45,13 @@ class Player {
             
         }
     }
+
+    // snadderMove(){
+    //     for (snadder of snadders) {
+    //         if(this.currentSpace == snadder.startIndex){
+    //             this.targetSpace = snadder.endIndex;
+    //             console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
+    //         }
+    //     }
+    // }
 }
