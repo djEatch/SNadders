@@ -22,11 +22,10 @@ const evaluate_phase = 5
 const reset_phase = 6
 
 let playerText;
-let turnCount = 0;
+let turnCount = -1;
 
 function setup() {
 
-    phase = setup_phase;
     createCanvas(boardCols*squareSize,boardRows*squareSize);
     background(51);
 
@@ -59,45 +58,67 @@ function setup() {
     drawSnadders();
     drawPlayers();
     
-    setActivePlayer()
+    //setActivePlayer()
 
     rollBtn = createButton('Roll');
     rollBtn.mousePressed(buttonPress);
-    rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
-
+    
+    phase = setup_phase;
 }
 
 function draw() {
     frameRate(5);
-    if (phase == roll_phase) {
+    if (phase == setup_phase) {
+        
+        // set the active player
+        turnCount++;
+        console.log ("turn count from setup_phase: " + turnCount);
+        setActivePlayer()
+
+        // enable button
+        rollBtn.removeAttribute('disabled');
+        rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
+        phase = roll_phase;
+
+    }else  if (phase == roll_phase) {
         
     }else  if(phase == preview_phase){
-        activeSpace++;
-        if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
-            board[activeSpace].highlight();
+        if(activeSpace<activePlayer.targetSpace){ // moving up the board
+            activeSpace++;
         } else {
+            activeSpace--; //moving down the board - snaked
+        }
+        if(activeSpace != activePlayer.currentSpace) {
+            board[activeSpace].highlight();
+        } 
+        if  (activeSpace == activePlayer.targetSpace){
             phase = move_phase;
             activeSpace = activePlayer.currentSpace;
         }
     } else if (phase == move_phase) {
-        activeSpace++;
-        if(activeSpace >= activePlayer.currentSpace && activeSpace <= activePlayer.targetSpace) {
-            board[activeSpace].default();
-            activePlayer.currentSpace++;
+        if(activeSpace<activePlayer.targetSpace){ // moving up the board
+            activeSpace++;
         } else {
+            activeSpace--; //moving down the board - snaked
+        }
+        if(activeSpace != activePlayer.currentSpace) {
+            board[activeSpace].default();
+            activePlayer.currentSpace = activeSpace;
+        }
+        if (activeSpace == activePlayer.targetSpace) {
             phase = evaluate_phase;
         }
     } else if (phase == evaluate_phase) {
         if(activePlayer.targetSpace == (boardRows*boardCols) - 1){
             phase = reset_phase;
-            console.log(this.name + " won!!!!");
-            playerText.html(this.name + " won!!!");
+            console.log(activePlayer.name + " won!!!!");
+            playerText.html(activePlayer.name + " won!!!");
             rollBtn.html("RESET");
+            rollBtn.removeAttribute('disabled');
             gameOver = true;
         } else {
-            turnCount++;
-            setActivePlayer()
-            phase = roll_phase;
+            
+            phase = setup_phase;
             
         }
     }
@@ -113,18 +134,9 @@ function draw() {
 
 
 function buttonPress(){
-    // activePlayer = players[turnCount%players.length]
-    // playerText.html(activePlayer.name + "'s turn.");
     if(!gameOver){
         activePlayer.premove(roll());
-        // activePlayer.move();
-        // drawBoard();
-        // drawSnadders();
-        // drawPlayers();
-        // turnCount++;
-        // if(!gameOver){
-        //     setActivePlayer()
-        // }
+        rollBtn.attribute('disabled', '');
     } else {
         reset();
     }
@@ -132,6 +144,8 @@ function buttonPress(){
 
 function setActivePlayer(){
     activePlayer = players[turnCount%players.length]
+    console.log (activePlayer);
+    console.log ("turn count from function: " + turnCount);
     playerText.html(activePlayer.name + "'s turn.");
     playerText.style('color', color(activePlayer.colourR,activePlayer.colourG,activePlayer.colourB));
 }
@@ -146,8 +160,8 @@ function reset(){
     drawSnadders();
     drawPlayers();
 
-    turnCount=0;
-    setActivePlayer()
+    turnCount=-1;
+    phase = setup_phase;
 }
 
 function roll(){
