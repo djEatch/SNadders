@@ -83,28 +83,15 @@ function draw() {
     }else  if (phase == roll_phase) {
         
     }else  if(phase == preview_phase){
-        if(activeSpace<activePlayer.targetSpace){ // moving up the board
-            activeSpace++;
-        } else {
-            activeSpace--; //moving down the board - snaked
-        }
-        if(activeSpace != activePlayer.currentSpace) {
-            board[activeSpace].highlight();
-        } 
+        animate("PREVIEW");
+
         if  (activeSpace == activePlayer.targetSpace){
             phase = move_phase;
             activeSpace = activePlayer.currentSpace;
         }
     } else if (phase == move_phase) {
-        if(activeSpace<activePlayer.targetSpace){ // moving up the board
-            activeSpace++;
-        } else {
-            activeSpace--; //moving down the board - snaked
-        }
-        if(activeSpace != activePlayer.currentSpace) {
-            board[activeSpace].default();
-            activePlayer.currentSpace = activeSpace;
-        }
+        animate("MOVE");
+        
         if (activeSpace == activePlayer.targetSpace) {
             phase = evaluate_phase;
         }
@@ -117,9 +104,7 @@ function draw() {
             rollBtn.removeAttribute('disabled');
             gameOver = true;
         } else {
-            
             phase = setup_phase;
-            
         }
     }
     
@@ -130,7 +115,24 @@ function draw() {
 
 }
 
+function animate(type){
+    if(activeSpace<activePlayer.targetSpace){ // moving up the board
+        activeSpace++;
+    } else {
+        activeSpace--; //moving down the board - snaked
+    }
+    if(activeSpace != activePlayer.currentSpace) {
+        if(type=="MOVE"){
+            board[activeSpace].default();
+            activePlayer.currentSpace = activeSpace;
+        } else { // PREVIEW
+            board[activeSpace].highlight();
+        }
+    } 
+}
 
+
+// 
 
 
 function buttonPress(){
@@ -144,8 +146,7 @@ function buttonPress(){
 
 function setActivePlayer(){
     activePlayer = players[turnCount%players.length]
-    console.log (activePlayer);
-    console.log ("turn count from function: " + turnCount);
+    console.log (activePlayer.name + "'s turn.");
     playerText.html(activePlayer.name + "'s turn.");
     playerText.style('color', color(activePlayer.colourR,activePlayer.colourG,activePlayer.colourB));
 }
@@ -201,11 +202,11 @@ function calcSnadder(mode){
     startSet = false;
     while((tryCount<maxTry) && (!startSet)){
         tryCount++;
-	if(mode == "LADDER"){
-        myStart = floor(random(1,board.length-boardCols));
-	} else {
-	myStart = floor(random(boardCols,board.length-2));
-	}
+        if(mode == "LADDER"){
+            myStart = floor(random(1,board.length-boardCols));
+        } else {
+            myStart = floor(random(boardCols,board.length-2));
+        }
         if (snadderClash(myStart)==false){
             startSet=true;
         }
@@ -216,11 +217,11 @@ function calcSnadder(mode){
         tryCount = 0;
         while((tryCount<maxTry) && (!endSet)){
             tryCount++;
-	    if(mode=="LADDER"){
-            myEnd = floor(random((floor(myStart/boardCols)+1)*boardCols,board.length-1));
-	    } else {
-	    myEnd = floor(random(1,(floor(myStart/boardCols))*boardCols));
-	    }
+            if(mode=="LADDER"){
+                myEnd = floor(random((floor(myStart/boardCols)+1)*boardCols,board.length-1));
+            } else {
+                myEnd = floor(random(1,(floor(myStart/boardCols))*boardCols));
+            }
             if (snadderClash(myEnd)==false){
                 endSet=true;
             }

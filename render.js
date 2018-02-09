@@ -46,3 +46,26 @@ function drawSnadders(){
         line(snadder.startLocX,snadder.startLocY,snadder.endLocX,snadder.endLocY);
     }
 }
+
+    //function animatePreview(){
+    //     if(activeSpace<activePlayer.targetSpace){ // moving up the board
+    //         activeSpace++;
+    //     } else {
+    //         activeSpace--; //moving down the board - snaked
+    //     }
+    //     if(activeSpace != activePlayer.currentSpace) {
+    //         board[activeSpace].highlight();
+    //     } 
+    // }
+    
+    // function animateMove(){
+    //     if(activeSpace<activePlayer.targetSpace){ // moving up the board
+    //         activeSpace++;
+    //     } else {
+    //         activeSpace--; //moving down the board - snaked
+    //     }
+    //     if(activeSpace != activePlayer.currentSpace) {
+    //         board[activeSpace].default();
+    //         activePlayer.currentSpace = activeSpace;
+    //     }
+    // }
