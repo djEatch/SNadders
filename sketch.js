@@ -67,7 +67,7 @@ function setup() {
 }
 
 function draw() {
-    frameRate(5);
+    frameRate(25);
     if (phase == setup_phase) {
         
         // set the active player
@@ -77,6 +77,7 @@ function draw() {
 
         // enable button
         rollBtn.removeAttribute('disabled');
+        rollBtn.html("Roll");
         rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
         phase = roll_phase;
 
