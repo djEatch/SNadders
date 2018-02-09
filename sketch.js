@@ -96,16 +96,7 @@ function draw() {
         animate("MOVE");
         
         if (activeSpace == activePlayer.targetSpace) {
-            //activePlayer.snadderMove();
-
-            for (snadder of snadders) {
-                if(activePlayer.currentSpace == snadder.startIndex){
-                    activePlayer.targetSpace = snadder.endIndex;
-                    console.log (activePlayer + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
-                    phase = snadder_preview_phase;
-                }
-            }
-            if (phase!=snadder_preview_phase){
+            if (!activePlayer.snadderMove()){
                 phase = evaluate_phase
             }
 
@@ -125,12 +116,12 @@ function draw() {
         }
     } else if (phase == evaluate_phase) {
         if(activePlayer.targetSpace == (boardRows*boardCols) - 1){
-            phase = reset_phase;
             console.log(activePlayer.name + " won!!!!");
             playerText.html(activePlayer.name + " won!!!");
             rollBtn.html("RESET");
             rollBtn.removeAttribute('disabled');
             gameOver = true;
+            phase = reset_phase;
         } else {
             phase = setup_phase;
         }

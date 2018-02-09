@@ -46,12 +46,15 @@ class Player {
         }
     }
 
-    // snadderMove(){
-    //     for (snadder of snadders) {
-    //         if(this.currentSpace == snadder.startIndex){
-    //             this.targetSpace = snadder.endIndex;
-    //             console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
-    //         }
-    //     }
-    // }
+    snadderMove(){
+        for (snadder of snadders) {
+            if(this.currentSpace == snadder.startIndex){
+                this.targetSpace = snadder.endIndex;
+                console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
+                phase = snadder_preview_phase;
+                return true;
+            }
+        }
+        return false;
+    }
 }
