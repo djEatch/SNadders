@@ -7,6 +7,8 @@ let activePlayer;
 let snadders=[];
 let snadderCount = 5;
 
+let highlightTrail = []
+let activeSpace
 
 let gameOver = false;
 
@@ -16,16 +18,14 @@ const setup_phase = 0
 const roll_phase = 1
 const preview_phase = 2
 const move_phase = 3
-const snadder_phase = 4
-const evaluation_phase = 5
+const evaluate_phase = 5
 const reset_phase = 6
 
 let playerText;
-let turnCount = 0;
+let turnCount = -1;
 
 function setup() {
 
-    phase = setup_phase;
     createCanvas(boardCols*squareSize,boardRows*squareSize);
     background(51);
 
@@ -50,15 +50,6 @@ function setup() {
     players.push(player);
     player = new Player("Duuuuuude");
     players.push(player);
-
-    // player = new Player("E");
-    // players.push(player);
-    // player = new Player("F");
-    // players.push(player);
-    // player = new Player("G");
-    // players.push(player);
-    // player = new Player("H");
-    // players.push(player);
     
     playerText = createDiv();
     playerText.html("Loading...",true);
@@ -67,33 +58,88 @@ function setup() {
     drawSnadders();
     drawPlayers();
     
-    setActivePlayer()
+    //setActivePlayer()
 
     rollBtn = createButton('Roll');
     rollBtn.mousePressed(buttonPress);
-    rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
-
+    
+    phase = setup_phase;
 }
 
 function draw() {
-    frameRate(5);
+    frameRate(25);
+    if (phase == setup_phase) {
+        
+        // set the active player
+        turnCount++;
+        console.log ("turn count from setup_phase: " + turnCount);
+        setActivePlayer()
+
+        // enable button
+        rollBtn.removeAttribute('disabled');
+        rollBtn.html("Roll");
+        rollBtn.style('background-color', activePlayer.colourR,activePlayer.colourG,activePlayer.colourB)
+        phase = roll_phase;
+
+    }else  if (phase == roll_phase) {
+        
+    }else  if(phase == preview_phase){
+        animate("PREVIEW");
+
+        if  (activeSpace == activePlayer.targetSpace){
+            phase = move_phase;
+            activeSpace = activePlayer.currentSpace;
+        }
+    } else if (phase == move_phase) {
+        animate("MOVE");
+        
+        if (activeSpace == activePlayer.targetSpace) {
+            phase = evaluate_phase;
+        }
+    } else if (phase == evaluate_phase) {
+        if(activePlayer.targetSpace == (boardRows*boardCols) - 1){
+            phase = reset_phase;
+            console.log(activePlayer.name + " won!!!!");
+            playerText.html(activePlayer.name + " won!!!");
+            rollBtn.html("RESET");
+            rollBtn.removeAttribute('disabled');
+            gameOver = true;
+        } else {
+            phase = setup_phase;
+        }
+    }
+    
+
+    drawBoard();
+    drawSnadders();
+    drawPlayers();
+
+}
+
+function animate(type){
+    if(activeSpace<activePlayer.targetSpace){ // moving up the board
+        activeSpace++;
+    } else {
+        activeSpace--; //moving down the board - snaked
+    }
+    if(activeSpace != activePlayer.currentSpace) {
+        if(type=="MOVE"){
+            board[activeSpace].default();
+            activePlayer.currentSpace = activeSpace;
+        } else { // PREVIEW
+            board[activeSpace].highlight();
+        }
+    } 
 }
 
 
+// 
 
 
 function buttonPress(){
-    // activePlayer = players[turnCount%players.length]
-    // playerText.html(activePlayer.name + "'s turn.");
     if(!gameOver){
-        activePlayer.move(roll());
-        drawBoard();
-        drawSnadders();
-        drawPlayers();
-        turnCount++;
-        if(!gameOver){
-            setActivePlayer()
-        }
+        activePlayer.premove(roll());
+        rollBtn.attribute('disabled', '');
     } else {
         reset();
     }
@@ -101,6 +147,7 @@ function buttonPress(){
 
 function setActivePlayer(){
     activePlayer = players[turnCount%players.length]
+    console.log (activePlayer.name + "'s turn.");
     playerText.html(activePlayer.name + "'s turn.");
     playerText.style('color', color(activePlayer.colourR,activePlayer.colourG,activePlayer.colourB));
 }
@@ -115,8 +162,8 @@ function reset(){
     drawSnadders();
     drawPlayers();
 
-    turnCount=0;
-    setActivePlayer()
+    turnCount=-1;
+    phase = setup_phase;
 }
 
 function roll(){
@@ -156,11 +203,11 @@ function calcSnadder(mode){
     startSet = false;
     while((tryCount<maxTry) && (!startSet)){
         tryCount++;
-	if(mode == "LADDER"){
-        myStart = floor(random(1,board.length-boardCols));
-	} else {
-	myStart = floor(random(boardCols,board.length-2));
-	}
+        if(mode == "LADDER"){
+            myStart = floor(random(1,board.length-boardCols));
+        } else {
+            myStart = floor(random(boardCols,board.length-2));
+        }
         if (snadderClash(myStart)==false){
             startSet=true;
         }
@@ -171,11 +218,11 @@ function calcSnadder(mode){
         tryCount = 0;
         while((tryCount<maxTry) && (!endSet)){
             tryCount++;
-	    if(mode=="LADDER"){
-            myEnd = floor(random((floor(myStart/boardCols)+1)*boardCols,board.length-1));
-	    } else {
-	    myEnd = floor(random(1,(floor(myStart/boardCols))*boardCols));
-	    }
+            if(mode=="LADDER"){
+                myEnd = floor(random((floor(myStart/boardCols)+1)*boardCols,board.length-1));
+            } else {
+                myEnd = floor(random(1,(floor(myStart/boardCols))*boardCols));
+            }
             if (snadderClash(myEnd)==false){
                 endSet=true;
             }

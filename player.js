@@ -8,29 +8,41 @@ class Player {
         this.colourB = random(255);
         
         this.currentSpace = 0;
+        this.targetSpace = 0
     }
 
-    move(num){
-        console.log (this.name + " rolled  " +num + " moving from  " + this.currentSpace + " to " + (this.currentSpace+num));
-        this.currentSpace = this.currentSpace+num;
+    premove(num){
+        this.targetSpace = this.currentSpace+num;
+        console.log (this.name + " rolled  " +num + " would move from  " + this.currentSpace + " to " + this.targetSpace);
+        
 
         for (snadder of snadders) {
-            if(this.currentSpace == snadder.startIndex){
-                this.currentSpace = snadder.endIndex;
-                console.log (this.name + " used " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
+            if(this.targetSpace == snadder.startIndex){
+                this.targetSpace = snadder.endIndex;
+                console.log (this.name + " will use " + snadder.type + " " + snadder.startIndex + " to " + snadder.endIndex);
             }
         }
 
-        if (this.currentSpace >= boardRows*boardCols) {
-            
-            this.currentSpace = (boardRows*boardCols) - 1
+        if (this.targetSpace >= boardRows*boardCols) {
+            this.targetSpace = (boardRows*boardCols) - 1
         }
+        activeSpace = this.currentSpace;
+        phase = preview_phase;
 
-        if(this.currentSpace == (boardRows*boardCols) - 1){
+    }
+
+    move(num){
+
+
+        if(this.targetSpace == (boardRows*boardCols) - 1){
+            phase = reset_phase;
             console.log(this.name + " won!!!!");
             playerText.html(this.name + " won!!!");
             rollBtn.html("RESET");
             gameOver = true;
+        } else {
+            phase = roll_phase;
+            
         }
     }
 }
