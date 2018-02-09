@@ -173,8 +173,11 @@ function roll(){
 
 function snadderClash(index){
     for(snadder of snadders){
-        if(snadder.startIndex==index || snadder.endIndex==index){
-            return true;
+        if(snadder.startIndex==index){
+            return "START";
+            break;
+        } else if (snadder.endIndex==index){
+            return "END"
             break;
         }
     }
