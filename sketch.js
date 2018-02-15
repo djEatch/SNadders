@@ -195,7 +195,7 @@ function reset(){
 }
 
 function roll(){
-    let diceValue = floor(random(1,7));
+    let diceValue = p5.floor(random(1,7));
     return diceValue;
 }
 
