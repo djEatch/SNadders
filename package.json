@@ -1,0 +1,22 @@
+{
+  "name": "snadders",
+  "version": "1.0.0",
+  "description": "Snakes and Ladders for child",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djEatch/SNadders.git"
+  },
+  "author": "DJEatch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djEatch/SNadders/issues"
+  },
+  "homepage": "https://github.com/djEatch/SNadders#readme",
+  "devDependencies": {
+    "jest": "^22.3.0"
+  }
+}
