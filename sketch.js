@@ -195,7 +195,7 @@ function reset(){
 }
 
 function roll(){
-    let diceValue = floor(random(1,7));
+    let diceValue = Math.floor((Math.random()*6)+1); //updated to use native javascript to enable jest to test
     return diceValue;
 }
 
