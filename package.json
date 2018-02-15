@@ -2,7 +2,7 @@
   "name": "snadders",
   "version": "1.0.0",
   "description": "Snakes and Ladders for child",
-  "main": "index.html",
+  "main": "",
   "scripts": {
     "test": "jest"
   },

@@ -273,4 +273,6 @@ function addSnadder(startIndex,endIndex){
     snadders.push(snadder);
 }
 
-module.exports = roll;
+if (typeof module !== 'undefined') {
+    module.exports = roll;
+}
