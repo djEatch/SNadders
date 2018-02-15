@@ -1,6 +1,6 @@
 let board= []
 let boardCols = 10
-let boardRows = 5
+let boardRows = 10
 let squareSize = 50
 let players=[];
 let activePlayer;
@@ -46,14 +46,15 @@ function setup() {
         calcSnadder();
     }
 
-    let player = new Player("BooBug");
+    let player = new Player("Aaron");
     players.push(player);
-    player = new Player("PeekyPie");
+    player = new Player("Daddy");
     players.push(player);
-    player = new Player("Duuuuuude");
+    player = new Player("Momma");
     players.push(player);
     
     playerText = createDiv();
+    playerText.style('font-size', '48px');
     playerText.html("Loading...",true);
 
     drawBoard();
@@ -64,12 +65,13 @@ function setup() {
 
     rollBtn = createButton('Roll');
     rollBtn.mousePressed(buttonPress);
+    rollBtn.size(boardCols*squareSize,100);
     
     phase = setup_phase;
 }
 
 function draw() {
-    frameRate(25);
+    frameRate(5);
     if (phase == setup_phase) {
         
         // set the active player
