@@ -3,7 +3,7 @@ const random = require('./libraries/p5').prototype.random;
 
 let board= []
 let boardCols = 10
-let boardRows = 5
+let boardRows = 50
 let squareSize = 50
 let players=[];
 let activePlayer;
