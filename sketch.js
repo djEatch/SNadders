@@ -1,5 +1,7 @@
-const floor = require('./libraries/p5').prototype.floor;
-const random = require('./libraries/p5').prototype.random;
+if (typeof module !== 'undefined') {
+    const floor = require('./libraries/p5').prototype.floor;
+    const random = require('./libraries/p5').prototype.random;
+}
 
 let board= []
 let boardCols = 10
