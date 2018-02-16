@@ -1,4 +1,4 @@
-const roll = require('./sketch')
+const roll = require('./sketch');
 
 test('checking roll >= 1', () => {
      expect(roll()).toBeGreaterThanOrEqual(1);

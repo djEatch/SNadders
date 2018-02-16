@@ -1,3 +1,6 @@
+const floor = require('./libraries/p5').prototype.floor;
+const random = require('./libraries/p5').prototype.random;
+
 let board= []
 let boardCols = 10
 let boardRows = 5
@@ -161,9 +164,6 @@ function animate(type){
 }
 
 
-// 
-
-
 function buttonPress(){
     if(!gameOver){
         activePlayer.premove(roll());
@@ -195,7 +195,7 @@ function reset(){
 }
 
 function roll(){
-    let diceValue = Math.floor((Math.random()*6)+1); //updated to use native javascript to enable jest to test
+    let diceValue = floor(random(1,7));//Math.floor((Math.random()*6)+1); //updated to use native javascript to enable jest to test
     return diceValue;
 }
 
